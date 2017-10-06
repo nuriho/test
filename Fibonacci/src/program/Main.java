@@ -9,6 +9,9 @@ public class Main
 
 	public static void main(String[] args)
 	{
+		Maze m = new Maze();
+		m.printMaze();
+		
 		String message = "Enter a number";
 		System.out.println(message);
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
@@ -18,7 +21,6 @@ public class Main
 			line = bufferedReader.readLine();
 		} catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("you entered: "+ line);
