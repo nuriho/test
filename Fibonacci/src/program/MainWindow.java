@@ -1,30 +1,24 @@
 package program;
 
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
+import java.awt.Font;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
-
-import javax.swing.JButton;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 public class MainWindow
 {
 
 	private JFrame frame;
-	private JTextField textField;
-	private JLabel lblNumber;
-	private Fibonacci fib;
+	private Maze maze;
 
 	/**
 	 * Launch the application.
@@ -59,16 +53,12 @@ public class MainWindow
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize()
-	{		
-		fib = new Fibonacci();
+	{
+		maze = new Maze();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new GridLayout(0, 2, 0, 0));
-		JPanel labelPanel = new JPanel(new GridLayout(0,1));
-		JPanel textPanel = new JPanel(new GridLayout(0,1));
-		frame.getContentPane().add(labelPanel);
-		frame.getContentPane().add(textPanel);
+		frame.getContentPane().setLayout(new FlowLayout());
 		JMenuBar menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
 		JMenuItem fileItemExit = new JMenuItem("Exit");
@@ -76,7 +66,6 @@ public class MainWindow
 		fileMenu.add(fileItemExit);
 		fileItemExit.addActionListener(new ActionListener()
 		{
-			
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
@@ -85,27 +74,20 @@ public class MainWindow
 			}
 		});
 		frame.setJMenuBar(menuBar);
-		
-		JLabel lblEnterSequenceNumber = new JLabel("Enter Sequence Number", SwingConstants.CENTER);
-		labelPanel.add(lblEnterSequenceNumber);
-		
-		lblNumber = new JLabel("Number", SwingConstants.CENTER);
-		labelPanel.add(lblNumber);
-		
-		textField = new JTextField(10);
-		textPanel.add(textField);
-		
-		JButton btnButtonName = new JButton("Button Name");
-		textPanel.add(btnButtonName);
-		btnButtonName.addActionListener(new ActionListener()
-				{
-			public void actionPerformed(ActionEvent e)
-			{
-				int num = fib.fib(Integer.parseInt(textField.getText()));
-				lblNumber.setText( Integer.toString(num) );
-			}
-				});
-		frame.pack();
+
+		JTextArea label = new JTextArea(maze.getMaze());
+		label.setSize(150, 50);
+		label.setEditable(false);
+		label.setCursor(null);
+		label.setOpaque(false);
+		label.setFocusable(false);
+		label.setLineWrap(true);
+		label.setWrapStyleWord(true);
+		label.setFont(new Font("monospaced", Font.PLAIN, 12));
+
+		frame.getContentPane().add(label);
+
+//		frame.pack();
 	}
 
 }

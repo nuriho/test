@@ -9,8 +9,8 @@ public class Maze
 				Features.Wall, Features.Wall, Features.Wall, Features.Wall, Features.Wall,
 				Features.Wall, Features.Wall, Features.Wall, Features.Wall, Features.Wall },
 			// row 2
-			{ Features.Wall, Features.Path, Features.Path, Features.Path, Features.Path,
-				Features.Wall, Features.Path, Features.Path, Features.Path, Features.Path, 
+			{ Features.Wall, Features.Path, Features.Path, Features.Path, Features.Wall,
+				Features.Path, Features.Path, Features.Path, Features.Path, Features.Path, 
 				Features.Path, Features.Path, Features.Path, Features.Path, Features.Wall },
 			// row 3
 			{ Features.Wall, Features.Wall, Features.Path, Features.Path, Features.Path,
@@ -85,42 +85,48 @@ public class Maze
 		{
 			for (int column = 0; column < maze[row].length; column++)
 			{
-				printRowCol(maze[row][column]);
+				System.out.print(printRowCol(maze[row][column]));
 			}
 			System.out.println();
 		}
 	}
 
-	private void printRowCol(Features value)
+	public String getMaze()
+	{
+		StringBuilder sb = new StringBuilder();
+		for (int row = 0; row < maze.length; row++)
+		{
+			for (int column = 0; column < maze[row].length; column++)
+			{
+				sb.append(printRowCol(maze[row][column]));
+			}
+			sb.append(System.lineSeparator());
+		}
+		return sb.toString();
+	}
+
+	private String printRowCol(Features value)
 	{
 		switch (value)
 		{
 		case Wall:
-			System.out.print("X");
-			break;
+			return "X";
 		case Path:
-			System.out.print(" ");
-			break;
+			return " ";
 		case Earth:
-			System.out.print("Q");
-			break;
+			return "Q";
 		case Fire:
-			System.out.print("A");
-			break;
+			return "A";
 		case Wind:
-			System.out.print("Z");
-			break;
+			return "Z";
 		case Start:
-			System.out.print("S");
-			break;
+			return "S";
 		case End:
-			System.out.print("E");
-			break;
+			return "E";
 		case Water:
-			System.out.print("W");
-			break;
+			return "W";
 		default:
-			break;
+			return "";
 		}
 	}
 }
