@@ -77,7 +77,7 @@ public class Maze implements IMaze
 	}
 
 	/**
-	 * loc.x = col loc.y = row
+	 * loc.x = col == (-)west/(+)east, loc.y = row == (-)north/(+)south
 	 */
 	private Point loc;
 
