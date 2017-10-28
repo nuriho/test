@@ -75,7 +75,7 @@ public class MainWindow
 		});
 		frame.setJMenuBar(menuBar);
 
-		JTextArea label = new JTextArea(maze.getMaze());
+		JTextArea label = new JTextArea(maze.toString());
 		label.setSize(150, 50);
 		label.setEditable(false);
 		label.setCursor(null);
