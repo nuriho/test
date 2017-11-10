@@ -1,7 +1,5 @@
 package program;
 
-import java.awt.Point;
-
 public class Maze implements IMaze
 {
 	private static final Features[][] maze =
@@ -79,15 +77,21 @@ public class Maze implements IMaze
 	/**
 	 * loc.x = col == (-)west/(+)east, loc.y = row == (-)north/(+)south
 	 */
-	private Point loc;
+	private PlayerLocation loc;
+	private boolean isMazeSolved;
+	public static final String moveNorthCommand = "North";
+	public static final String moveSouthCommand = "South";
+	public static final String moveEastCommand = "East";
+	public static final String moveWestCommand = "West";
 
 	public Maze()
 	{
 		playerLocation();
+		isMazeSolved = false;
 	}
 
 	@Override
-	public Point playerLocation()
+	public PlayerLocation playerLocation()
 	{
 		if (loc == null)
 		{
@@ -112,7 +116,9 @@ public class Maze implements IMaze
 					break;
 			}
 
-			loc = new Point(x, y);
+			loc = new PlayerLocation();
+			loc.row = y;
+			loc.col = x;
 		}
 
 		return loc;
@@ -129,6 +135,19 @@ public class Maze implements IMaze
 			System.out.println();
 		}
 	}
+	
+	public static void clearConsole()
+	{
+		// Just adding lines for separation
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println();
+	}
 
 	@Override
 	public String toString()
@@ -138,7 +157,7 @@ public class Maze implements IMaze
 		{
 			for (int column = 0; column < maze[row].length; column++)
 			{
-				if (loc.y == row && loc.x == column)
+				if (loc.row == row && loc.col == column)
 				{
 					sb.append("P");
 				} else
@@ -177,62 +196,115 @@ public class Maze implements IMaze
 	}
 
 	@Override
-	public Point moveNorth()
+	public PlayerLocation moveNorth()
 	{
-		loc.y = loc.y - 1;
+		loc.row = loc.row - 1;
+		isMazeSolved = isPlayerLocationAtEnd();
 		return loc;
 	}
 
 	@Override
-	public Point moveSouth()
+	public PlayerLocation moveSouth()
 	{
-		loc.y = loc.y + 1;
+		loc.row = loc.row + 1;
+		isMazeSolved = isPlayerLocationAtEnd();
 		return loc;
 	}
 
 	@Override
-	public Point moveEast()
+	public PlayerLocation moveEast()
 	{
-		loc.x = loc.x + 1;
+		loc.col = loc.col + 1;
+		isMazeSolved = isPlayerLocationAtEnd();
 		return loc;
 	}
 
 	@Override
-	public Point moveWest()
+	public PlayerLocation moveWest()
 	{
-		loc.x = loc.x - 1;
+		loc.col = loc.col - 1;
+		isMazeSolved = isPlayerLocationAtEnd();
 		return loc;
 	}
 
 	@Override
 	public boolean canMoveNorth()
 	{
-		if (loc.y == 0)
+		if (loc.row == 0)
 			return false;
-		return maze[loc.x][loc.y - 1] == Features.Wall ? false : true;
+		
+		if(maze[loc.row - 1][loc.col] == Features.Wall)
+		{
+			return false;
+		}
+		
+		return true;
 	}
 
 	@Override
 	public boolean canMoveSouth()
 	{
-		if (loc.y == 16)
+		if (loc.row == 16)
 			return false;
-		return maze[loc.x][loc.y + 1] == Features.Wall ? false : true;
+		
+		if(maze[loc.row + 1][loc.col] == Features.Wall)
+		{
+			return false;
+		}
+		
+		return true;
 	}
 
 	@Override
 	public boolean canMoveEast()
 	{
-		if (loc.x == 15)
+		if (loc.col == 15)
 			return false;
-		return maze[loc.x + 1][loc.y] == Features.Wall ? false : true;
+		
+		if(maze[loc.row][loc.col + 1] == Features.Wall)
+		{
+			return false;
+		}
+		
+		return true;
 	}
 
 	@Override
 	public boolean canMoveWest()
 	{
-		if (loc.x == 0)
+		if (loc.col == 0)
 			return false;
-		return maze[loc.x - 1][loc.y] == Features.Wall ? false : true;
+		
+		if(maze[loc.row][loc.col -1] == Features.Wall)
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
+	@Override
+	public boolean isSolved()
+	{
+		return isMazeSolved;
+	}
+	
+	private boolean isPlayerLocationAtEnd()
+	{
+		return maze[loc.row][loc.col] == Features.End;
+	}
+	
+	public String validCommands()
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append("Exit" + System.lineSeparator());
+		sb.append("Help" + System.lineSeparator());
+		
+		if(canMoveNorth()) { sb.append(moveNorthCommand + System.lineSeparator()); }
+		if(canMoveSouth()) { sb.append(moveSouthCommand + System.lineSeparator()); }
+		if(canMoveEast()) { sb.append(moveEastCommand + System.lineSeparator()); }
+		if(canMoveWest()) { sb.append(moveWestCommand + System.lineSeparator()); }
+		
+		return sb.toString();
 	}
 }

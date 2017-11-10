@@ -10,22 +10,67 @@ public class Main
 	public static void main(String[] args)
 	{
 		Maze m = new Maze();
-		m.printMaze();
-		
-		String message = "Enter a number";
-		System.out.println(message);
-		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-		String line = "";
-		try
+		System.out.println(m.toString());
+
+		while (m.isSolved() == false)
 		{
-			line = bufferedReader.readLine();
-		} catch (IOException e)
-		{
-			e.printStackTrace();
+			String message = "Enter an action:";
+			System.out.println(message);
+			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+			String line = "";
+			try
+			{
+				line = bufferedReader.readLine();
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			
+			if(line.equalsIgnoreCase("exit"))
+			{
+				System.out.println("Exiting");
+				break;
+			}
+			else if(line.equalsIgnoreCase("help"))
+			{
+				System.out.println("Valid commands are:");
+				System.out.println(m.validCommands());
+			}
+			else if(line.equalsIgnoreCase(Maze.moveNorthCommand)
+					&& m.canMoveNorth())
+			{
+				m.moveNorth();
+			}
+			else if(line.equalsIgnoreCase(Maze.moveSouthCommand)
+					&& m.canMoveSouth())
+			{
+				m.moveSouth();
+			}
+			else if(line.equalsIgnoreCase(Maze.moveEastCommand)
+					&& m.canMoveEast())
+			{
+				m.moveEast();
+			}
+			else if(line.equalsIgnoreCase(Maze.moveWestCommand)
+					&& m.canMoveWest())
+			{
+				m.moveWest();
+			}
+			else
+			{
+				System.out.println("Invalid command!  Type 'Help' for help");
+			}
+			
+			if(m.isSolved())
+			{
+				System.out.println("Congratulations!");
+			}
+			else
+			{
+				Maze.clearConsole();
+				System.out.println(m.toString());
+			}
 		}
-		System.out.println("you entered: "+ line);
-		line = System.console().readLine(message);
-		System.out.println("you entered: "+ line);
 	}
 
 }

@@ -1,16 +1,15 @@
 package program;
 
-import java.awt.Point;
-
 public interface IMaze
 {
-	Point playerLocation();
-	Point moveNorth();
-	Point moveSouth();
-	Point moveEast();
-	Point moveWest();
+	PlayerLocation playerLocation();
+	PlayerLocation moveNorth();
+	PlayerLocation moveSouth();
+	PlayerLocation moveEast();
+	PlayerLocation moveWest();
 	boolean canMoveNorth();
 	boolean canMoveSouth();
 	boolean canMoveEast();
 	boolean canMoveWest();
+	boolean isSolved();
 }

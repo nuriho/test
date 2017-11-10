@@ -2,6 +2,15 @@ package calculator;
 
 public class QuadraticEquation
 {	
+	/**
+	 * Solves the quadratic equation:
+	 * x = (-b +/- sqrt(b^2 - 4ac) ) / 2a
+	 * 
+	 * @param a
+	 * @param b
+	 * @param c
+	 * @return the - and + values for x
+	 */
 	public static double[] solve(double a, double b, double c)
 	{
 		double[] x = new double[2];
